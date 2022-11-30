@@ -5,7 +5,7 @@ interface  botones {
     public void label();
     public void cuadroText();
     public void cuadrotext2();
-    public void cuadroText3();
+    
     
     
 }

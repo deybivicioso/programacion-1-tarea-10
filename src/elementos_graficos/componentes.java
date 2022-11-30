@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,9 +22,8 @@ public class componentes extends JPanel implements botones, ActionListener {
     public JLabel nombre = new JLabel();
     public static JTextField txtnombre2 = new JTextField();
     public JLabel edad = new JLabel();
-    public static JTextField txtedad = new JTextField();
-    public JLabel etapaVida = new JLabel();
-    public static JTextField textEtapa = new JTextField();   
+    public static JTextField txtedad = new JTextField();    
+    public static JTextField textEtapa = new JTextField();
     JMenuItem guardar = new JMenuItem("Agregar");
     JMenuItem eliminar = new JMenuItem("Eliminar");
     public JTable tbtoriginal = new JTable();
@@ -36,8 +36,7 @@ public class componentes extends JPanel implements botones, ActionListener {
         panel();
         label();
         cuadroText();
-        cuadrotext2();
-        cuadroText3();
+        cuadrotext2();       
         menu();
         tablaSolucion();
     }
@@ -53,10 +52,14 @@ public class componentes extends JPanel implements botones, ActionListener {
         edad.setText("Edad: ");
         edad.setFont(new Font("Bodoni MT", Font.PLAIN, 14));
         lamina.add(edad);
-        etapaVida.setText("Etapa de vida: ");
-        etapaVida.setBounds(5, 90, 90, 20);
-        etapaVida.setFont(new Font("Bodoni MT", Font.PLAIN, 14));
-        lamina.add(etapaVida);
+        JLabel minombre=new JLabel("deybi vicioso");
+        minombre.setBounds(480,140,90,20);
+        lamina.add(minombre);
+
+        JLabel matricula=new JLabel("2022-0030");
+        matricula.setBounds(480,160,90,20);
+        lamina.add(matricula);
+        
     }
 
     @Override
@@ -98,26 +101,7 @@ public class componentes extends JPanel implements botones, ActionListener {
         });
     }
 
-    @Override
-    public void cuadroText3() {
-        // TODO Auto-generated method stub
-        textEtapa.setBounds(120, 90, 195, 25);
-        lamina.add(textEtapa);
-        textEtapa.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e2) {
-                int letter = e2.getKeyChar();
-                boolean mayus = letter >= 65 && letter <= 90;
-                boolean minus = letter >= 97 && letter <= 122;
-                Boolean space = letter == 32;
-                if (!(minus || mayus || space)) {
-                    e2.consume();
-                }
-
-            }
-        });
-
-    }
+   
 
     @Override
     public void panel() {
@@ -139,17 +123,17 @@ public class componentes extends JPanel implements botones, ActionListener {
         mnguardar.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
         guardar.addActionListener(this);
         menu1.add(mnguardar);
-        guardar.setFont(new Font("Bahnschrift", Font.PLAIN, 14));       
+        guardar.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
         mnguardar.add(guardar);
         JMenu mnEliminar = new JMenu();
         mnEliminar.setText("Eliminar");
         mnEliminar.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
         menu1.add(mnEliminar);
-       
+
         eliminar.setFont(new Font("Bahnschrift", Font.PLAIN, 14));
         eliminar.addActionListener(this);
         mnEliminar.add(eliminar);
-        
+
     }
 
     public void tablaSolucion() {
@@ -163,7 +147,6 @@ public class componentes extends JPanel implements botones, ActionListener {
         laminaPanel.add(scroll);
         String[] columna = new String[] { "nombre", "edad", "etapa de vida" };
         tbtmodelo.setColumnIdentifiers(columna);
-        
 
     }
 
@@ -171,16 +154,38 @@ public class componentes extends JPanel implements botones, ActionListener {
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
         Object evento = e.getSource();
-        if (evento == guardar) {
-            tbtmodelo.addRow(new Object[] {
-                    txtnombre2.getText(), txtedad.getText(), textEtapa.getText()
-            });
+        int valor = Integer.parseInt(txtedad.getText());
 
-        }else if(evento==eliminar){
-            int variable=tbtoriginal.getSelectedRow();
-            if(variable>=0){
+        if (evento == guardar) {
+            if(valor<=10){
+                String vida=" niño";
+                textEtapa.setText(vida);
+            } else if(valor<19){
+                String vida=" joven";
+                textEtapa.setText(vida);
+            } else if(valor>=19 && valor<35){
+                String vida=" adulto joven";
+                textEtapa.setText(vida);
+            }else if(valor>=35 && valor<75){
+                String vida="adulto";
+                textEtapa.setText(vida);
+            } else if(valor>=75){
+                String vida=" anciano";
+                textEtapa.setText(vida);
+            }
+            tbtmodelo.addRow(new Object[] {
+                txtnombre2.getText(), txtedad.getText(), textEtapa.getText()
+        });
+        JOptionPane.showMessageDialog(null,"los datos. nombre: "+txtnombre2.getText()+", "+"edad: "+txtedad.getText()+
+        " años"+","+" etapa de vida: "+textEtapa.getText()+ " , fueron agregados a la tabla");
+
+        } else if (evento == eliminar) {
+            int variable = tbtoriginal.getSelectedRow();
+            if (variable >= 0) {
                 tbtmodelo.removeRow(variable);
             }
+            JOptionPane.showMessageDialog(null,"los datos. nombre: "+txtnombre2.getText()+", "+"edad: "+txtedad.getText()+
+            " años"+","+" etapa de vida: "+textEtapa.getText()+ " , fueron eliminados a la tabla");
         }
 
     }
